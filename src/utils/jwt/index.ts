@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { sign, verify } from 'jsonwebtoken';
-import { UserDocument } from 'src/users/schema/user.schema';
+import { UserDocument } from 'src/users/schemas/user.schema';
 import {
   ACCESS_TOKEN_SECRET,
   REFRESH_TOKEN_SECRET,
@@ -57,7 +57,7 @@ export const generateToken = async (
     common[type].privateKey,
     {
       issuer: ISSIUER,
-      subject: user.medicalCode,
+      subject: user.username,
       algorithm: 'HS256',
       expiresIn: common[type].signOptions.expiresIn, // 15m
     },

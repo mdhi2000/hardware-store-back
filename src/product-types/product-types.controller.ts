@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ProductTypesService } from './product-types.service';
 import { CreateProductTypeDto } from './dto/create-product-type.dto';
 import { UpdateProductTypeDto } from './dto/update-product-type.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('not-implemented')
 @Controller('product-types')
 export class ProductTypesController {
   constructor(private readonly productTypesService: ProductTypesService) {}
@@ -23,7 +33,10 @@ export class ProductTypesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductTypeDto: UpdateProductTypeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProductTypeDto: UpdateProductTypeDto,
+  ) {
     return this.productTypesService.update(+id, updateProductTypeDto);
   }
 

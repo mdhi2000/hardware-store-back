@@ -3,6 +3,7 @@ import { CreateCpuSocketDto } from './dto/create-cpu-socket.dto';
 import { UpdateCpuSocketDto } from './dto/update-cpu-socket.dto';
 
 @Injectable()
+// TODO: implement
 export class CpuSocketsService {
   create(createCpuSocketDto: CreateCpuSocketDto) {
     return 'This action adds a new cpuSocket';

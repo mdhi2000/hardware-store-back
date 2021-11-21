@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
-import { User, UserDocument } from '../users/schema/user.schema';
+import { User, UserDocument } from '../users/schemas/user.schema';
 import { verifyToken } from '@utils/jwt';
 
 @Injectable()

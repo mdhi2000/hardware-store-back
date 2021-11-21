@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CpuSocketsService } from './cpu-sockets.service';
 import { CreateCpuSocketDto } from './dto/create-cpu-socket.dto';
 import { UpdateCpuSocketDto } from './dto/update-cpu-socket.dto';
 
+@ApiTags('not-implemented')
 @Controller('cpu-sockets')
 export class CpuSocketsController {
   constructor(private readonly cpuSocketsService: CpuSocketsService) {}
@@ -23,7 +33,10 @@ export class CpuSocketsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCpuSocketDto: UpdateCpuSocketDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCpuSocketDto: UpdateCpuSocketDto,
+  ) {
     return this.cpuSocketsService.update(+id, updateCpuSocketDto);
   }
 

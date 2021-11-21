@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Request, Response } from 'express';
 import { Model } from 'mongoose';
-import { User, UserDocument } from 'src/users/schema/user.schema';
+import { User, UserDocument } from 'src/users/schemas/user.schema';
 import { createSHA512Hash } from '@utils/hash';
 import { setRefreshToken, tradeToken, verifyToken } from 'src/utils/jwt';
 import { COOKIE_JWT_URL } from '@utils/environments';
@@ -11,9 +11,9 @@ import { COOKIE_JWT_URL } from '@utils/environments';
 export class AuthService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
   async login(req: Request, res: Response): Promise<any> {
-    const medicalCode = req.body.medicalCode;
+    const username = req.body.username;
     const password = req.body.password;
-    const foundUser = await this.userModel.findOne({ medicalCode });
+    const foundUser = await this.userModel.findOne({ username });
     if (foundUser && foundUser.password === createSHA512Hash(password)) {
       const { accessToken, refreshToken } = await tradeToken(foundUser);
       setRefreshToken(res, refreshToken);
