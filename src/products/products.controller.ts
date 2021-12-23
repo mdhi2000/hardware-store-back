@@ -12,6 +12,7 @@ import {
   Res,
   Req,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -20,7 +21,15 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { Response } from 'express';
 import { diskStorage } from 'multer';
-import { ApiCreatedResponse, ApiTags, ApiOkResponse, ApiParam, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiTags,
+  ApiOkResponse,
+  ApiParam,
+  ApiBody,
+  ApiConsumes,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { UploadFileDto } from './dto/upload-file.dto';
 
 @ApiTags('products')
@@ -57,6 +66,40 @@ export class ProductsController {
     return this.productsService.findAllByCategory(categoryId);
   }
 
+  @Get('category/key/:categoryKey')
+  @ApiParam({
+    name: 'categoryKey',
+    description: 'the categoryKey of the products',
+  })
+  @ApiOkResponse({
+    description: 'returns all products by their category keys',
+  })
+  findAllByCategoryKey(@Param('categoryKey') categoryKey: string) {
+    return this.productsService.findAllByCategoryKey(categoryKey);
+  }
+
+  @Get('category/key/:categoryKey/cpu-socket/:cpuSocketId')
+  @ApiParam({
+    name: 'categoryKey',
+    description: 'the categoryKey of the products',
+  })
+  @ApiParam({
+    name: 'cpuSocketId',
+    description: 'the cpu socket id of the products',
+  })
+  @ApiOkResponse({
+    description: 'returns all products by their category keys and cpu sockets',
+  })
+  searchInTypeByCpuSocket(
+    @Param('categoryKey') categoryKey: string,
+    @Param('cpuSocketId') cpuSocketId: string,
+  ) {
+    return this.productsService.searchInTypeByCpuSocket(
+      categoryKey,
+      cpuSocketId,
+    );
+  }
+
   @Get(':id')
   @ApiParam({
     name: 'id',
@@ -67,6 +110,17 @@ export class ProductsController {
   })
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);
+  }
+
+  @Get('/search/name')
+  @ApiOkResponse({
+    description: 'finds a product by searching in name',
+  })
+  @ApiQuery({
+    name: 'search',
+  })
+  searchByName(@Query('search') search: string) {
+    return this.productsService.searchByName(search);
   }
 
   @Patch(':id')

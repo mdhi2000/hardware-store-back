@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from './../../categories/schemas/category.schema';
 import { IsNotEmpty } from 'class-validator';
+import { CpuSocket } from 'src/cpu-sockets/schemas/cpu-socket.schema';
 export class CreateProductDto {
   @IsNotEmpty()
   @ApiProperty({
@@ -8,6 +9,13 @@ export class CreateProductDto {
     description: 'category id of the product',
   })
   category: Category;
+
+  @ApiProperty({
+    type: 'string',
+    description:
+      'cpuSocket id of the product,(if a product does not have this feature dont pass anything)',
+  })
+  cpuSocket: CpuSocket;
 
   @IsNotEmpty()
   @ApiProperty({

@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { ApiBody, ApiHeader, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import { User } from 'src/users/schemas/user.schema';
 import { AuthService } from './auth.service';
 import { LoginDto } from './Dtos/login.dto';
 
@@ -41,5 +42,13 @@ export class AuthController {
   refresh(@Req() req: Request, @Res() res: Response): Promise<any> {
     const refreshToken = req.cookies.refreshToken;
     return this.authService.refreshLogin(refreshToken, res);
+  }
+
+  @ApiOkResponse({
+    description: 'returns current logged in user',
+  })
+  @Get('/whoAmI')
+  whoAmI(@Req() req: Request): Promise<User> {
+    return req.body.currentUser;
   }
 }

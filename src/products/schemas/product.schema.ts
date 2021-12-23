@@ -1,3 +1,4 @@
+import { CpuSocket } from '../../cpu-sockets/schemas/cpu-socket.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Category } from 'src/categories/schemas/category.schema';
@@ -12,6 +13,13 @@ export class Product extends Document {
     required: true,
   })
   category: Category;
+
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: CpuSocket.name,
+    nullable: true,
+  })
+  cpuSocket: CpuSocket;
 
   @Prop({ required: true })
   name: string;

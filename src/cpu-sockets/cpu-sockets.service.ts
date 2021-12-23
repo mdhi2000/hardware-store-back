@@ -1,27 +1,34 @@
+import { CpuSocket, CpuSocketDocument } from './schemas/cpu-socket.schema';
+import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { CreateCpuSocketDto } from './dto/create-cpu-socket.dto';
 import { UpdateCpuSocketDto } from './dto/update-cpu-socket.dto';
+import { Model } from 'mongoose';
 
 @Injectable()
 // TODO: implement
 export class CpuSocketsService {
+  constructor(
+    @InjectModel(CpuSocket.name)
+    private cpuSocketModel: Model<CpuSocketDocument>,
+  ) {}
   create(createCpuSocketDto: CreateCpuSocketDto) {
-    return 'This action adds a new cpuSocket';
+    return new this.cpuSocketModel(createCpuSocketDto).save();
   }
 
   findAll() {
-    return `This action returns all cpuSockets`;
+    return this.cpuSocketModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cpuSocket`;
+  findOne(id: string) {
+    return this.cpuSocketModel.findById(id);
   }
 
-  update(id: number, updateCpuSocketDto: UpdateCpuSocketDto) {
-    return `This action updates a #${id} cpuSocket`;
+  update(id: string, updateCpuSocketDto: UpdateCpuSocketDto) {
+    return this.cpuSocketModel.findByIdAndUpdate(id, updateCpuSocketDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cpuSocket`;
+  remove(id: string) {
+    return this.cpuSocketModel.findByIdAndDelete(id);
   }
 }
