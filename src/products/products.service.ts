@@ -14,6 +14,10 @@ import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product, ProductDocument } from './schemas/product.schema';
+import {
+  Comments,
+  CommentsDocument,
+} from 'src/comments/schemas/comment.schemas';
 
 @Injectable()
 export class ProductsService {
@@ -22,6 +26,7 @@ export class ProductsService {
     @InjectModel(ProductFeature.name)
     private productFeaturesModel: Model<ProductFeatureDocument>,
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
+    @InjectModel(Comments.name) private commentsModel: Model<CommentsDocument>,
     @InjectModel(CpuSocket.name)
     private cpuSocketModel: Model<CpuSocketDocument>,
   ) {}
@@ -70,15 +75,19 @@ export class ProductsService {
     const features = await this.productFeaturesModel.find({
       product,
     });
+    const comments = await this.commentsModel.find({
+      product,
+    });
     return {
       ...product.toJSON(),
       features,
+      comments,
     };
   }
 
   searchByName(search: string) {
     return this.productModel
-      .find({ name: new RegExp(`/${search}/g`) })
+      .find({ name: { $regex: search } })
       .populate('category')
       .populate('cpuSocket');
   }

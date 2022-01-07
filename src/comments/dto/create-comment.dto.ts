@@ -1,11 +1,15 @@
+import { User } from './../../users/schemas/user.schema';
+import { Product } from './../../products/schemas/product.schema';
 import { IsNotEmpty } from 'class-validator';
 export class CreateCommentDto {
   @IsNotEmpty()
-  title: string;
+  product: Product;
 
   @IsNotEmpty()
-  email: string;
+  user: User;
 
   @IsNotEmpty()
-  itemCounts: string;
+  text: string;
+
+  points: 0 | 1 | 2 | 3 | 4 | 5 = 0;
 }

@@ -1,4 +1,7 @@
-import { ProductFeature, ProductFeatureSchema } from './../product-features/schemas/product-feature.schema';
+import {
+  ProductFeature,
+  ProductFeatureSchema,
+} from './../product-features/schemas/product-feature.schema';
 import {
   CpuSocket,
   CpuSocketSchema,
@@ -10,11 +13,13 @@ import { Module } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { Product, ProductSchema } from './schemas/product.schema';
+import { Comments, CommentsSchema } from 'src/comments/schemas/comment.schemas';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Category.name, schema: CategorySchema },
+      { name: Comments.name, schema: CommentsSchema },
       { name: Product.name, schema: ProductSchema },
       { name: CpuSocket.name, schema: CpuSocketSchema },
       { name: ProductFeature.name, schema: ProductFeatureSchema },
