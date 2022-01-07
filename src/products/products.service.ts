@@ -1,4 +1,8 @@
 import {
+  ProductFeature,
+  ProductFeatureDocument,
+} from './../product-features/schemas/product-feature.schema';
+import {
   CpuSocket,
   CpuSocketDocument,
 } from '../cpu-sockets/schemas/cpu-socket.schema';
@@ -15,6 +19,8 @@ import { Product, ProductDocument } from './schemas/product.schema';
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+    @InjectModel(ProductFeature.name)
+    private productFeaturesModel: Model<ProductFeatureDocument>,
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
     @InjectModel(CpuSocket.name)
     private cpuSocketModel: Model<CpuSocketDocument>,
@@ -56,11 +62,18 @@ export class ProductsService {
       .populate('cpuSocket');
   }
 
-  findOne(id: string) {
-    return this.productModel
+  async findOne(id: string) {
+    const product = await this.productModel
       .findById(id)
       .populate('category')
       .populate('cpuSocket');
+    const features = await this.productFeaturesModel.find({
+      product,
+    });
+    return {
+      ...product.toJSON(),
+      features,
+    };
   }
 
   searchByName(search: string) {

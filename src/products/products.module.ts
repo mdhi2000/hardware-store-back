@@ -1,3 +1,4 @@
+import { ProductFeature, ProductFeatureSchema } from './../product-features/schemas/product-feature.schema';
 import {
   CpuSocket,
   CpuSocketSchema,
@@ -16,6 +17,7 @@ import { Product, ProductSchema } from './schemas/product.schema';
       { name: Category.name, schema: CategorySchema },
       { name: Product.name, schema: ProductSchema },
       { name: CpuSocket.name, schema: CpuSocketSchema },
+      { name: ProductFeature.name, schema: ProductFeatureSchema },
     ]),
   ],
   controllers: [ProductsController],

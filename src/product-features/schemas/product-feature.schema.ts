@@ -10,7 +10,7 @@ export class ProductFeature extends Document {
     type: MongooseSchema.Types.ObjectId,
     ref: ProductFeature.name,
   })
-  parent: ProductFeature;
+  parent: ProductFeature | null;
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,

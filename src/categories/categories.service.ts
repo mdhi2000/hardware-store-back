@@ -40,7 +40,7 @@ export class CategoriesService {
   }
 
   findOneByKey(key: string) {
-    return this.categoryModel.findOne({ key });
+    return this.categoryModel.findOne({ key }).populate('parent');
   }
 
   update(id: string, updateCategoryDto: UpdateCategoryDto) {

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiHeader, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { User } from 'src/users/schemas/user.schema';
+import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { LoginDto } from './Dtos/login.dto';
 
@@ -48,6 +49,7 @@ export class AuthController {
     description: 'returns current logged in user',
   })
   @Get('/whoAmI')
+  @UseGuards(AuthGuard)
   whoAmI(@Req() req: Request): Promise<User> {
     return req.body.currentUser;
   }

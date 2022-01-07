@@ -23,7 +23,6 @@ export class CreateProductDto {
   })
   name: string;
 
-  @IsNotEmpty()
   @ApiProperty({
     description: 'description of the product',
   })
